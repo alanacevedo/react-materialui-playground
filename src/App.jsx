@@ -1,10 +1,11 @@
 import React from 'react'
-import { Typography, CssBaseline, Button, Container, Grid, Box } from '@material-ui/core'
+import { Typography, CssBaseline, Button, Container, Grid } from '@material-ui/core'
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles'
 import theme from './styles'
 import TestChart from './components/TestChart'
 import MyAppBar from './components/MyAppBar'
 import SideTabs from './components/SideTabs'
+import MapView from './components/MapView'
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -26,7 +27,7 @@ const App = () => {
                     <Grid container spacing={2}>
                         <Grid container item xs={11} md={8} justifyContent='center'>
                             <Grid item xs={11}>
-                                <Box sx={{height: 300, bgcolor: 'secondary.main'}}></Box>
+                                <MapView/>
                             </Grid>
                             <Grid item xs={11}>
                                 <TestChart/>
