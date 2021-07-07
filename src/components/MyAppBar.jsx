@@ -23,7 +23,7 @@ const MyAppBar = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        News
+                        Fondef visualization demo
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
