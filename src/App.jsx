@@ -6,6 +6,8 @@ import TestChart from './components/TestChart'
 import MyAppBar from './components/MyAppBar'
 import SideTabs from './components/SideTabs'
 import MapView from './components/MapView'
+import TestZoomChart from './components/TestZoomChart'
+import TestDataPlotlyChart from './components/TestDataPlotlyChart'
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -33,10 +35,10 @@ const App = () => {
                                 <TestChart/>
                             </Grid>
                             <Grid item xs={11}>
-                                <TestChart/>
+                                <TestZoomChart/>
                             </Grid>
                             <Grid item xs={11}>
-                                <TestChart/>
+                                <TestDataPlotlyChart/>
                             </Grid>
                         </Grid>
                         <Grid container item xs={11} md={4}>

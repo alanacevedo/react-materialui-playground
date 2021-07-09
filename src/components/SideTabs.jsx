@@ -65,13 +65,13 @@ export default function SimpleTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Item One
+        Aquí va el contenido de Estaciones
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+      Aquí va el contenido de Datos
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+      Aquí va el contenido de Información
       </TabPanel>
     </div>
   );
