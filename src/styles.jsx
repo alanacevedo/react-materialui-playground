@@ -9,6 +9,8 @@ const theme = createTheme({
         }
     },
     palette: {
+        background: 'white',
+
         primary: {
             main: purple[700]
         },

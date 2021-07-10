@@ -1,8 +1,9 @@
-import React from 'react'
-import { Box, Typography } from '@material-ui/core'
+import React, { useContext } from 'react'
+import { Box, Button, Typography } from '@material-ui/core'
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
+import { GlobalContext } from '../utils/GlobalContext'
 
 import L from 'leaflet';
 
@@ -24,29 +25,44 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-const MapView = () => {
+const MapView = (props) => {
     const classes = useStyles()
+    const { setNodeId } = useContext(GlobalContext)
+    
     const initialZoom = 7
-    const coords = [
-        [-33.4500000, -70.6666667],
-        [-33.2, -70.6666667],
-        [-33.3, -71]
+    const data = [
+        {
+            coords:  [-33.4500000, -70.6666667],
+            id: 1,
+        },
+        {
+            coords: [-33.2, -70.6666667],
+            id: 2,
+        },
+        {
+            coords:  [-33.3, -71],
+            id: 3,
+        }
+        
     ]
     return (
         <>
-        <MapContainer center={coords[0]} zoom={initialZoom} className={classes.leafletContainer}>
+        <MapContainer center={data[0].coords} zoom={initialZoom} className={classes.leafletContainer}>
             <TileLayer 
                 url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
 
-            {coords.map((coord, index) => {
+            {data.map((obj) => {
                 return (<>
-                <Marker position={coord}>
+                <Marker position={obj.coords}>
                 <Popup>
                     <Typography>
-                        Popup Info {index + 1}
+                        Popup Info {obj.id}
                     </Typography>
+                    <Button variant='contained' color='primary' onClick={() => {setNodeId(obj.id)}}>
+                        Ver datos
+                    </Button>
                 </Popup>
             </Marker>
             </>)
