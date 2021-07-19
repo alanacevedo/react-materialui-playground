@@ -45,7 +45,7 @@ const PlotlyChart = (props) => {
   const data = [trace1, trace2];
 
   const layout = {
-  title: props.chartData.title,
+  title: props.chartData.dataTag,
   xaxis: {
     autorange: true,
     //rangeslider: {},
