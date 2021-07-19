@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
 import { GlobalContext } from '../utils/GlobalContext'
+import { getNodes } from '../utils/database'
 
 import L from 'leaflet';
 
@@ -30,24 +31,10 @@ const MapView = (props) => {
     const { setNodeId } = useContext(GlobalContext)
     
     const initialZoom = 7
-    const data = [
-        {
-            coords:  [-33.4500000, -70.6666667],
-            id: 1,
-        },
-        {
-            coords: [-33.2, -70.6666667],
-            id: 2,
-        },
-        {
-            coords:  [-33.3, -71],
-            id: 3,
-        }
-        
-    ]
+    const data = getNodes()
     return (
         <>
-        <MapContainer center={data[0].coords} zoom={initialZoom} className={classes.leafletContainer}>
+        <MapContainer center={[-33.4500000, -70.6666667]} zoom={initialZoom} className={classes.leafletContainer}>
             <TileLayer 
                 url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -1,3 +1,20 @@
+export const testNodes = {
+  'nodes': [
+    {
+        coords:  [-33.4500000, -70.6666667],
+        id: 1,
+    },
+    {
+        coords: [-33.2, -70.6666667],
+        id: 2,
+    },
+    {
+        coords:  [-33.3, -71],
+        id: 3,
+    }
+  ] 
+}
+
 export const testData1 = {
     "headers": [
       "Date_Time",
@@ -74960,4 +74977,4 @@ export const testData3 = {
     "0"
   ],
 ]
-}
+  }

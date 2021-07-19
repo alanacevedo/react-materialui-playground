@@ -1,4 +1,4 @@
-import { testData1, testData2, testData3 } from "../static/testData";
+import { testData1, testData2, testData3, testNodes } from "../static/testData";
 
 export function getNodeData(nodeId) {
     switch (nodeId) {
@@ -15,5 +15,8 @@ export function getNodeData(nodeId) {
             (console.error('Error at node data fetch', nodeId))
             return {}
     }
+}
 
+export function getNodes() {
+    return testNodes['nodes']
 }

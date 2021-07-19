@@ -27,7 +27,7 @@ const App = () => {
         setMobileOpen(!mobileOpen)
     }
 
-    const tabs = <SideTabs/>
+    const tabs = (<SideTabs/>);
     
     return (
         <>
