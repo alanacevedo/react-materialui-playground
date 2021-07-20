@@ -21,17 +21,21 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
     const classes = useStyles() 
     const [nodeId, setNodeId] = useState(-1)
-    const [mobileOpen, setMobileOpen] = React.useState(false)
+    const [mobileOpen, setMobileOpen] = useState(false)
+    const [visibleNodes, setVisibleNodes] = useState([1, 2])
+    const [shouldRefreshVNodes, setShouldRefreshVNodes] = useState(false) // Esto es para coordinar el botón de refresco en sideTabs y el mapa
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen)
     }
 
-    const tabs = (<SideTabs/>);
+    const tabs = (<SideTabs handleDrawerToggle={handleDrawerToggle}/>);
     
     return (
         <>
-        <GlobalContext.Provider value={{ id: nodeId, setNodeId:setNodeId }}>
+        <GlobalContext.Provider 
+            value={{ id: nodeId, setNodeId:setNodeId, visibleNodes: visibleNodes, setVisibleNodes: setVisibleNodes,
+                shouldRefreshVNodes: shouldRefreshVNodes, setShouldRefreshVNodes: setShouldRefreshVNodes}}>
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <MyAppBar handleDrawerToggle={handleDrawerToggle}/>
@@ -42,6 +46,7 @@ const App = () => {
                     onClose={handleDrawerToggle}
                     classes={{ paper: classes.paper }}     
                 >
+                    
                     {tabs}
 
                 </Drawer>

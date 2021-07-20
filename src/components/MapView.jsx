@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Box, Button, Typography } from '@material-ui/core'
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
 import { GlobalContext } from '../utils/GlobalContext'
@@ -26,36 +26,58 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-const MapView = (props) => {
-    const classes = useStyles()
-    const { setNodeId } = useContext(GlobalContext)
-    
-    const initialZoom = 7
+const Markers = () => {
     const data = getNodes()
+    const { setNodeId, setVisibleNodes,  shouldRefreshVNodes, setShouldRefreshVNodes } = useContext(GlobalContext)
+    const map = useMap()
+
+    useEffect(() => {
+        if (shouldRefreshVNodes) {
+            const bounds = map.getBounds()
+            const visibleNodes = data.filter((obj) => {
+                return bounds.contains(obj.coords) 
+            }).map((obj) => {
+                return obj.id
+            })
+            setVisibleNodes(visibleNodes)
+            setShouldRefreshVNodes(false)
+        }
+    })
+
     return (
         <>
-        <MapContainer center={[-33.4500000, -70.6666667]} zoom={initialZoom} className={classes.leafletContainer}>
+        {data.map((obj) => {
+                return (
+                <>
+                <Marker position={obj.coords}>
+                    <Popup>
+                        <Typography>
+                            Popup Info {obj.id}
+                        </Typography>
+                        <Button variant='contained' color='primary' onClick={() => {setNodeId(obj.id)}}>
+                            Ver datos
+                        </Button>
+                    </Popup>
+                </Marker>
+                </>)
+            })}
+        </>
+    )
+}
+
+const MapView = () => {
+    const classes = useStyles()
+    const initialZoom = 7
+    
+    const centerCoords = [-33.4500000, -70.6666667]
+    return (
+        <>
+        <MapContainer center={centerCoords} zoom={initialZoom} className={classes.leafletContainer}>
             <TileLayer 
                 url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-
-            {data.map((obj) => {
-                return (<>
-                <Marker position={obj.coords}>
-                <Popup>
-                    <Typography>
-                        Popup Info {obj.id}
-                    </Typography>
-                    <Button variant='contained' color='primary' onClick={() => {setNodeId(obj.id)}}>
-                        Ver datos
-                    </Button>
-                </Popup>
-            </Marker>
-            </>)
-            })}
-            
-            
+            <Markers/>
         </MapContainer>
         </>
     )
