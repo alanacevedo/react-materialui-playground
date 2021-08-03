@@ -1,12 +1,21 @@
 /* eslint-disable eqeqeq */
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { PlotlyChart } from './PlotlyCharts'
-import { Grid, Button } from '@material-ui/core'
+import { Grid, Button, Typography } from '@material-ui/core'
 import { GlobalContext } from '../utils/GlobalContext'
 import { getNodeData } from '../utils/database';
 
+import DateFnsUtils from '@date-io/date-fns';
+import { subMonths } from 'date-fns'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { DatePicker } from '@material-ui/pickers'
+
 const NodeCharts = () => {
     const { id } = useContext(GlobalContext)
+    const [selectedMinDate, handleMinDateChange] = useState(new Date())
+    const [selectedMaxDate, handleMaxDateChange] = useState(subMonths(selectedMinDate, 1))
+    
+
     if (id === -1) {
         return (<></>)
     }
@@ -15,6 +24,7 @@ const NodeCharts = () => {
 
     const dataArray = nodeData['data']
 
+    
 
     const dateArray = dataArray.map((a) => a[0])
     const tempArray = dataArray.map((a) => a[3])
@@ -47,7 +57,35 @@ const NodeCharts = () => {
 
     return (
         <>
+
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+
+            <Grid container  direction='column' alignItems='center' spacing={1}>
+                <Grid item >
+                    <DatePicker value={selectedMinDate} onChange={handleMinDateChange}/>
+                </Grid>
+
+                <Grid item >
+                    <DatePicker value={selectedMaxDate} onChange={handleMaxDateChange}/>
+                </Grid>
+
+                <Grid item  >
+                    <Typography >
+                        {selectedMinDate.toDateString()}
+                    </Typography>
+                </Grid>
+
+                <Grid item  >
+                    <Typography >
+                        {selectedMaxDate.toDateString()}
+                    </Typography>
+                </Grid>
         
+            </Grid>
+            
+            
+            
+
             <Grid item xs={11}>
                 <PlotlyChart chartData={tempData}/>
             </Grid>
@@ -57,6 +95,9 @@ const NodeCharts = () => {
             <Grid item xs={11}>
                 <PlotlyChart chartData={ecData}/>
             </Grid>
+
+        </MuiPickersUtilsProvider>
+        
         </>  
     )
 }

@@ -28,7 +28,7 @@ const MyAppBar = (props) => {
                     <Typography variant="h6" className={classes.title}>
                         Fondef visualization demo
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    
                 </Toolbar>
                 
             </AppBar>

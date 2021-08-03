@@ -10,6 +10,7 @@ import Box from '@material-ui/core/Box';
 import { GlobalContext } from '../utils/GlobalContext'
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -24,7 +25,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -82,9 +83,9 @@ export default function SimpleTabs(props) {
           Las estaciones actualmente visibles en el mapa son: 
           {visibleNodes.map((n)=>{return ' ' + n})}
 
-        <Button onClick={() => {setShouldRefreshVNodes(true)}}>
-          Refresh
-        </Button>
+        <IconButton onClick={() => {setShouldRefreshVNodes(true)}}>
+          <RefreshIcon/>
+        </IconButton>
         </Typography>
         </TabPanel>
         <TabPanel value={value} index={1}>

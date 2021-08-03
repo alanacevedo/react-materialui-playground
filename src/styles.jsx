@@ -9,7 +9,6 @@ const theme = createTheme({
         }
     },
     palette: {
-        background: 'white',
 
         primary: {
             main: purple[700]
@@ -17,7 +16,10 @@ const theme = createTheme({
         secondary: {
             main: purple[300]
         }
-    }
+    },
+    paper: {
+        background: "white"
+      }
 })
 
 export default theme

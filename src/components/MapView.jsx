@@ -34,6 +34,7 @@ const Markers = () => {
     useEffect(() => {
         if (shouldRefreshVNodes) {
             const bounds = map.getBounds()
+            // Esto es super ineficiente. Si la cantidad de nodos aumenta, esto tardará  ya que tiene que iterar por todos.
             const visibleNodes = data.filter((obj) => {
                 return bounds.contains(obj.coords) 
             }).map((obj) => {

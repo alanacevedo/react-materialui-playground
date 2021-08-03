@@ -10,12 +10,13 @@ import NodeCharts from './components/NodeCharts'
 
 
 const useStyles = makeStyles((theme) => ({
+    color: {
+        backgroundColor: theme.palette.background.paper,
+    },
     container: {
         padding: theme.spacing(6, 4, 6),
+        backgroundColor: theme.palette.background.paper,
     },
-    paper: {
-        background: "white"
-      }
 }))
 
 const App = () => {
@@ -43,8 +44,7 @@ const App = () => {
                 <Drawer
                     variant="temporary"
                     open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    classes={{ paper: classes.paper }}     
+                    onClose={handleDrawerToggle}     
                 >
                     
                     {tabs}
@@ -55,10 +55,11 @@ const App = () => {
             <main>
                 <Container className={classes.container} maxWidth='xl'>
                     <Grid container spacing={2}>
-                        <Grid container item xs={11} md={8} justifyContent='center'>
+                        <Grid container  item xs={11} md={8} justifyContent='center' spacing={3}>
                             <Grid item xs={11}>
                                 <MapView/>
                             </Grid>
+                            
                             <NodeCharts/>
                         </Grid>
                         <Hidden smDown>
