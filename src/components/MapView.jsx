@@ -1,10 +1,13 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Typography } from '@material-ui/core'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
 import { GlobalContext } from '../utils/GlobalContext'
 import { getNodes, getNodeData2, getNodeData3 } from '../utils/database'
+import ToggleHideButton from './ToggleHideButton';
+
+
 
 import L from 'leaflet';
 
@@ -85,21 +88,33 @@ const Markers = () => {
     )
 }
 
+
+
 const MapView = () => {
     const classes = useStyles()
+    const [shouldHideMap, setShouldHideMap] = useState(false)
+
     const initialZoom = 7
-    
     const centerCoords = [-33.4500000, -70.6666667]
+
+
+    const mapComponent = 
+    <>
+    <MapContainer center={centerCoords} zoom={initialZoom} className={classes.leafletContainer}>
+        <TileLayer 
+            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <Markers/>
+    </MapContainer>
+    </>
+
     return (
         <>
-        <MapContainer center={centerCoords} zoom={initialZoom} className={classes.leafletContainer}>
-            <TileLayer 
-                url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Markers/>
-        </MapContainer>
+        <ToggleHideButton componentString='Mapa' shouldHide={shouldHideMap} setShouldHide={setShouldHideMap}/>
+        {shouldHideMap ? <></> : mapComponent}
         </>
+
     )
 }
 
