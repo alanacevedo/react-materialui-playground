@@ -1,15 +1,11 @@
 /* eslint-disable eqeqeq */
 import React, { useContext, useState } from 'react';
 import { PlotlyChart } from './PlotlyCharts'
-import { Grid, Typography } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { GlobalContext } from '../utils/GlobalContext'
 import { getNodeData } from '../utils/database';
-
-import DateFnsUtils from '@date-io/date-fns';
-import { es } from 'date-fns/locale'
 import { subMonths } from 'date-fns'
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { DatePicker } from '@material-ui/pickers'
+
 
 import DatePickerComponent from './DatePickerComponent'
 

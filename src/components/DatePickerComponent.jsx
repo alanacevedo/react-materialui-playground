@@ -14,7 +14,7 @@ const DatePickerComponent = (props) => {
 
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={es}>
 
-        <Grid id='outer' container direction='row' item alignItems='center' > {/* el xs y spacing está mal, debo ver una forma de centrarlo verticalmente sin eso */}
+        <Grid container item alignItems='center' > 
 
             <Grid container item alignItems='center' spacing={4} xs>
 
