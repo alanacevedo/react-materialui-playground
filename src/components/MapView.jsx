@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react'
-import { Box, Button, Typography } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
 import { GlobalContext } from '../utils/GlobalContext'
-import { getNodes } from '../utils/database'
+import { getNodes, getNodeData2, getNodeData3 } from '../utils/database'
 
 import L from 'leaflet';
 
@@ -44,6 +44,25 @@ const Markers = () => {
             setShouldRefreshVNodes(false)
         }
     })
+
+    /*
+    // Esto es para probar las consultas
+
+    useEffect(() => {
+        getNodeData2().then(
+            data => {console.log(data)},
+            error => {
+                console.error(error)
+                console.log('hola')
+            })
+    })
+
+    useEffect(() => {
+        getNodeData3()
+    })
+
+    */
+    
 
     return (
         <>

@@ -1,11 +1,12 @@
 /* eslint-disable eqeqeq */
 import React, { useContext, useState } from 'react';
 import { PlotlyChart } from './PlotlyCharts'
-import { Grid, Button, Typography } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import { GlobalContext } from '../utils/GlobalContext'
 import { getNodeData } from '../utils/database';
 
 import DateFnsUtils from '@date-io/date-fns';
+import { es } from 'date-fns/locale'
 import { subMonths } from 'date-fns'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { DatePicker } from '@material-ui/pickers'
@@ -58,33 +59,28 @@ const NodeCharts = () => {
     return (
         <>
 
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={es}>
 
-            <Grid container  direction='column' alignItems='center' spacing={1}>
-                <Grid item >
-                    <DatePicker value={selectedMinDate} onChange={handleMinDateChange}/>
-                </Grid>
+            <Grid container item direction='column' alignItems='center' xs={6} spacing={3}> {/* el xs y spacing está mal, debo ver una forma de centrarlo verticalmente sin eso */}
 
-                <Grid item >
-                    <DatePicker value={selectedMaxDate} onChange={handleMaxDateChange}/>
-                </Grid>
+                <Grid container item alignItems='center' spacing={1} xs>
 
-                <Grid item  >
-                    <Typography >
-                        {selectedMinDate.toDateString()}
-                    </Typography>
-                </Grid>
+                    <Grid item>
+                        <Typography>Desde: </Typography>
+                    </Grid>
+                    <Grid item >
+                        <DatePicker value={selectedMinDate} onChange={handleMinDateChange}/>
+                    </Grid>
 
-                <Grid item  >
-                    <Typography >
-                        {selectedMaxDate.toDateString()}
-                    </Typography>
+                    <Grid item>
+                        <Typography>Hasta: </Typography>
+                    </Grid>
+                    <Grid item >
+                        <DatePicker value={selectedMaxDate} onChange={handleMaxDateChange}/>
+                    </Grid>
+
                 </Grid>
-        
-            </Grid>
-            
-            
-            
+            </Grid>           
 
             <Grid item xs={11}>
                 <PlotlyChart chartData={tempData}/>

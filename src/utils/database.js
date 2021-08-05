@@ -20,3 +20,37 @@ export function getNodeData(nodeId) {
 export function getNodes() {
     return testNodes['nodes']
 }
+
+
+
+export async function getNodeData2(nodeIdString) {
+    const response = await fetch("http://agua.niclabs.cl/queries/infoestacion?estacion=7",
+    {
+        method: 'GET',
+        headers: {
+            'query-api-key' : '919c5e5e086a492398141c1ebd95b711',
+            'Content-Type': 'Application/json'
+        },
+        mode: 'cors',
+
+    })
+
+    return response.json()
+}
+
+export function getNodeData3() {
+    var url = "http://agua.niclabs.cl/queries/infoestacion?estacion=7";
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+
+    xhr.setRequestHeader("query-api-key", "919c5e5e086a492398141c1ebd95b711");
+
+    xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+        console.log(xhr.status);
+        console.log(xhr.responseText);
+    }};
+
+    xhr.send();
+}

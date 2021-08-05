@@ -1,9 +1,9 @@
 /* eslint-disable eqeqeq */
-import React, { useState } from 'react';
+import React from 'react';
 import  { useTheme } from '@material-ui/core/styles'
 import Plot from 'react-plotly.js';
-import Plotly from 'plotly.js'
-import { testData } from '../static/testData'
+import * as localeDictionary from 'plotly.js/lib/locales/es'
+
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +14,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const configSettings = {modeBarButtonsToRemove: ['toImage', 'lasso2d', 'select2d', 'autoScale2d']}
+const configSettings = {
+  modeBarButtonsToRemove: ['toImage', 'lasso2d', 'select2d', 'autoScale2d'],
+  locales: {'es': localeDictionary},
+  locale: 'es'
+}
 
 const PlotlyChart = (props) => {
   const theme = useTheme()
