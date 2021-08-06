@@ -6,55 +6,138 @@ import { GlobalContext } from '../utils/GlobalContext'
 import { getNodeData } from '../utils/database';
 import { subMonths } from 'date-fns'
 import ToggleHideButton from './ToggleHideButton';
+import  { useTheme } from '@material-ui/core/styles'
 
 
 import DatePickerComponent from './DatePickerComponent'
 
 const NodeCharts = () => {
-    const { id } = useContext(GlobalContext)
+    const { activeNodes } = useContext(GlobalContext)
     const [selectedMaxDate, handleMaxDateChange]  = useState(new Date())
     const [selectedMinDate, handleMinDateChange] = useState(subMonths(selectedMaxDate, 1))
     const [shouldHideCharts, setShouldHideCharts] = useState(false)
+    const theme = useTheme()
     
 
-    if (id === -1) {
+    if (activeNodes.length === 0) {
         return (<></>)
     }
 
-    const nodeData = getNodeData(id)
+    /*
+    Estos arrays se irán llenando con las series que se mostrarán en el respectivo gráfico, por cada nodo se agrega
+    la linea correspondiente a la serie de tiempo, y además los puntos de scatter correspondientes a las alertas
+    */ 
 
-    const dataArray = nodeData['data']
+    const tempTraces = []
+    const pressureTraces = [];
+    const ecTraces = [];
+
+
+    // Esto es poco eficiente, ver cómo hacer uso de caché para no repetir tantas consultas, quizás con useState, useEffect?
+    activeNodes.forEach((nodeId) => {
+        const nodeData = getNodeData(nodeId)
+        const dataArray = nodeData['data']
+
+        const dateArray = dataArray.map((a) => a[0])
+        const tempArray = dataArray.map((a) => a[3])
+        const tempAlertArray = dataArray.map((a) => a[4]==0 ? null:a[3])
+        const pressureArray = dataArray.map((a) => a[1])
+        const pressureAlertArray =  dataArray.map((a) => a[2]==0 ? null:a[1])
+        const ecArray = dataArray.map((a) => a[5])
+        const ecAlertArray =  dataArray.map((a) => a[6]==0 ? null:a[5])
+
+        const tempScatterTrace = {
+            x: dateArray,
+            y: tempAlertArray, 
+            mode: 'markers',
+            name: 'Etiquetas de alerta',
+            marker: {
+              color: 'rgb(219, 64, 82)',
+              size: 9
+            },
+          };
+          
+        const tempLineTrace = {
+            x: dateArray,
+            y:  tempArray,
+            mode: 'lines',
+            name: 'Temperatura (°C)',
+            line: {
+                color: theme.palette.primary.main,
+                width: 3
+            }
+        };
+
+        tempTraces.push(tempScatterTrace, tempLineTrace)
+
+        const pressureScatterTrace = {
+            x: dateArray,
+            y: pressureAlertArray, 
+            mode: 'markers',
+            name: 'Etiquetas de alerta',
+            marker: {
+              color: 'rgb(219, 64, 82)',
+              size: 9
+            },
+          };
+          
+        const pressureLineTrace = {
+            x: dateArray,
+            y:  pressureArray,
+            mode: 'lines',
+            name: 'Presión [cm H2O]',
+            line: {
+                color: theme.palette.primary.main,
+                width: 3
+            }
+        };
+
+        pressureTraces.push(pressureScatterTrace, pressureLineTrace)
+
+        const ecScatterTrace = {
+            x: dateArray,
+            y: ecAlertArray, 
+            mode: 'markers',
+            name: 'Etiquetas de alerta',
+            marker: {
+              color: 'rgb(219, 64, 82)',
+              size: 9
+            },
+          };
+          
+        const ecLineTrace = {
+            x: dateArray,
+            y:  ecArray,
+            mode: 'lines',
+            name: 'EC [µs/cm]',
+            line: {
+                color: theme.palette.primary.main,
+                width: 3
+            }
+        };
+
+        ecTraces.push(ecScatterTrace, ecLineTrace)
+
+    })
 
     
 
-    const dateArray = dataArray.map((a) => a[0])
-    const tempArray = dataArray.map((a) => a[3])
-    const tempAlertArray = dataArray.map((a) => a[4]==0 ? null:a[3])
-    const pressureArray = dataArray.map((a) => a[1])
-    const pressureAlertArray =  dataArray.map((a) => a[2]==0 ? null:a[1])
-    const ecArray = dataArray.map((a) => a[5])
-    const ecAlertArray =  dataArray.map((a) => a[6]==0 ? null:a[5])
+    /* 
+    dateArray tiene la forma
 
-    const tempData = {
-        dateArray: dateArray,
-        dataArray: tempArray,
-        alertArray: tempAlertArray,
-        dataTag: 'Temperatura (°C)',
-    }
+    [
+      "Date_Time",
+      "Pression [cm H2O]",
+      "Etiqueta P",
+      "Temperatura [°C]",
+      "Etiqueta T",
+      "EC [µs/cm]",
+      "Etiqueta EC"
+    ],
+    */
+    
 
-    const pressureData = {
-        dateArray: dateArray,
-        dataArray: pressureArray,
-        alertArray: pressureAlertArray,
-        dataTag: 'Presión [cm H2O]',
-    }
-
-    const ecData = {
-        dateArray: dateArray,
-        dataArray: ecArray,
-        alertArray: ecAlertArray,
-        dataTag: 'EC [µs/cm]',
-    }
+    
 
     const mainComponent = 
     <>
@@ -64,13 +147,13 @@ const NodeCharts = () => {
         />
         
         <Grid item xs={12}>
-            <PlotlyChart chartData={tempData}/>
+            <PlotlyChart chartTraces={tempTraces} dataTag='Temperatura (°C)'/>
         </Grid>
         <Grid item xs={12}>
-            <PlotlyChart chartData={pressureData}/>
+            <PlotlyChart chartTraces={pressureTraces} dataTag='Presión [cm H2O]'/>
         </Grid>
         <Grid item xs={12}>
-            <PlotlyChart chartData={ecData}/>
+            <PlotlyChart chartTraces={ecTraces} dataTag='EC [µs/cm]'/>
         </Grid>
     </>  
 

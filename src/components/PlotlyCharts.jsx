@@ -23,33 +23,11 @@ const configSettings = {
 const PlotlyChart = (props) => {
   const theme = useTheme()
   const classes = useStyles()
-
-  const trace1 = {
-    x: props.chartData.dateArray,
-    y: props.chartData.alertArray, 
-    mode: 'markers',
-    name: 'Etiquetas de alerta',
-    marker: {
-      color: 'rgb(219, 64, 82)',
-      size: 9
-    },
-  };
   
-  const trace2 = {
-    x: props.chartData.dateArray,
-    y:  props.chartData.dataArray,
-    mode: 'lines',
-    name: props.chartData.dataTag,
-    line: {
-      color: theme.palette.primary.main,
-      width: 3
-    }
-  };
-  
-  const data = [trace1, trace2];
+  const data = props.chartTraces;
 
   const layout = {
-  title: props.chartData.dataTag,
+  title: props.dataTag, //no ta
   xaxis: {
     autorange: true,
     //rangeslider: {},

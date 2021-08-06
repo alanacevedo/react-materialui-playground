@@ -11,7 +11,7 @@ import ToggleHideButton from './ToggleHideButton';
 
 import L from 'leaflet';
 
-import icon from 'leaflet/dist/images/marker-icon.png';
+import icon from 'leaflet/dist/images/marker-icon.png'; 
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -29,9 +29,50 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
+
+const ToggleButton = (props) => {
+    const { activeNodes, setActiveNodes } = useContext(GlobalContext)
+
+    const activateNode = (nodeId) => {
+        setActiveNodes([...activeNodes, nodeId]) // el ... hace una copia de activeNodes (es mala idea hacer un push que modifique el objeto)
+    }
+
+
+    const deactivateNode = (nodeId) => {
+        const nodes = [...activeNodes] // es como un .copy()
+
+        const nodeIndex = nodes.indexOf(nodeId)
+
+        if (nodeIndex > -1) {
+            nodes.splice(nodeIndex, 1) // elimina 1 elemento en el índice indicado
+        } else {
+            console.error('node ' + nodeIndex.toString() + ' not in activeNodes')
+        }
+
+        setActiveNodes(nodes)
+    }
+
+
+
+    if (!activeNodes.includes(props.nodeId)) {
+        return (
+            <Button variant='contained' color='primary' onClick={() => {activateNode(props.nodeId)}}>
+                Agregar datos
+            </Button>
+        )
+    } else {
+        return (
+            <Button variant='contained' color='primary' onClick={() => {deactivateNode(props.nodeId)}}>
+                Quitar datos
+            </Button>
+        )
+    }
+    
+}
+
 const Markers = () => {
     const data = getNodes()
-    const { setNodeId, setVisibleNodes,  shouldRefreshVNodes, setShouldRefreshVNodes } = useContext(GlobalContext)
+    const {  setVisibleNodes,  shouldRefreshVNodes, setShouldRefreshVNodes } = useContext(GlobalContext)
     const map = useMap()
 
     useEffect(() => {
@@ -65,7 +106,11 @@ const Markers = () => {
     })
 
     */
+
     
+
+
+
 
     return (
         <>
@@ -75,11 +120,10 @@ const Markers = () => {
                 <Marker position={obj.coords}>
                     <Popup>
                         <Typography>
-                            Popup Info {obj.id}
+                            Nodo {obj.id}
                         </Typography>
-                        <Button variant='contained' color='primary' onClick={() => {setNodeId(obj.id)}}>
-                            Ver datos
-                        </Button>
+                        
+                        <ToggleButton nodeId={obj.id}/>
                     </Popup>
                 </Marker>
                 </>)

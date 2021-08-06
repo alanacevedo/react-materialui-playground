@@ -1,9 +1,9 @@
 import React from 'react'
 
 export const GlobalContext  = React.createContext({
-    id: -1,
-    setNodeId: () => {},
-    visibleNodes: [],
+    activeNodes: [],
+    setActiveNodes: () => {},
+    visibleNodes: [], // marcadores visibles en el mapa
     setVisibleNodes: () => {},
     shouldRefreshVNodes : false,
     setShouldRefreshVNodes : () => {},

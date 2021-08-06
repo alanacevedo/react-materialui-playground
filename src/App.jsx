@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
     const classes = useStyles() 
-    const [nodeId, setNodeId] = useState(-1)
+    const [activeNodes, setActiveNodes] = useState([])
     const [mobileOpen, setMobileOpen] = useState(false)
     const [visibleNodes, setVisibleNodes] = useState([1, 2])
     const [shouldRefreshVNodes, setShouldRefreshVNodes] = useState(false) // Esto es para coordinar el botón de refresco en sideTabs y el mapa
@@ -35,7 +35,7 @@ const App = () => {
     return (
         <>
         <GlobalContext.Provider 
-            value={{ id: nodeId, setNodeId:setNodeId, visibleNodes: visibleNodes, setVisibleNodes: setVisibleNodes,
+            value={{ activeNodes: activeNodes, setActiveNodes: setActiveNodes, visibleNodes: visibleNodes, setVisibleNodes: setVisibleNodes,
                 shouldRefreshVNodes: shouldRefreshVNodes, setShouldRefreshVNodes: setShouldRefreshVNodes}}>
         <ThemeProvider theme={theme}>
             <CssBaseline/>
