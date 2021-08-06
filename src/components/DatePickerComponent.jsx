@@ -12,33 +12,34 @@ const DatePickerComponent = (props) => {
     return(
         <>
 
-        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={es}>
+        
+        <Grid container item alignItems='center' xs={8}> 
+            <MuiPickersUtilsProvider utils={DateFnsUtils} locale={es}>
 
-        <Grid container item alignItems='center' > 
 
-            <Grid container item alignItems='center' spacing={4} xs>
+                <Grid container item alignItems='center' spacing={4} xs>
 
-                <Grid container item xs={6} spacing={2} alignItems='center' justifyContent='flex-end'>
-                    <Grid item>
-                        <Typography>Desde: </Typography>
+                    <Grid container item xs={6} spacing={2} alignItems='center' justifyContent='flex-end'>
+                        <Grid item>
+                            <Typography>Desde: </Typography>
+                        </Grid>
+                        <Grid item > {/* existe minDate y maxDate  https://material-ui-pickers.dev/api/DatePicker*/}
+                            <DatePicker value={selectedMinDate} onChange={handleMinDateChange} disableFuture={true} inputVariant='outlined' />
+                        </Grid>
                     </Grid>
-                    <Grid item > {/* existe minDate y maxDate  https://material-ui-pickers.dev/api/DatePicker*/}
-                        <DatePicker value={selectedMinDate} onChange={handleMinDateChange} disableFuture={true} inputVariant='outlined' />
+
+
+                    <Grid container item xs={6} spacing={2} alignItems='center' justifyContent='flex-start'>
+                        <Grid item>
+                            <Typography>Hasta: </Typography>
+                        </Grid>
+                        <Grid item >
+                            <DatePicker value={selectedMaxDate} onChange={handleMaxDateChange} disableFuture={true} inputVariant='outlined'/>
+                        </Grid>
                     </Grid>
                 </Grid>
-
-
-                <Grid container item xs={6} spacing={2} alignItems='center' justifyContent='flex-start'>
-                    <Grid item>
-                        <Typography>Hasta: </Typography>
-                    </Grid>
-                    <Grid item >
-                        <DatePicker value={selectedMaxDate} onChange={handleMaxDateChange} disableFuture={true} inputVariant='outlined'/>
-                    </Grid>
-                </Grid>
-            </Grid>
+            </MuiPickersUtilsProvider>    
         </Grid>           
-        </MuiPickersUtilsProvider>
         </>
     )
 }

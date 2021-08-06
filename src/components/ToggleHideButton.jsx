@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react'
-import { Button, Typography } from '@material-ui/core'
+import React from 'react'
+import { Button } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
@@ -13,7 +13,10 @@ const ToggleHideButton = (props) => {
     return (
         <>
         <Button variant='contained' color='primary' onClick={toggleHide}>
-            {shouldHide? <>Mostrar {componentString} <AddIcon/></> : <>Ocultar {componentString} <RemoveIcon/></>}
+            {
+            /* Esta linea hace que varíe lo que se muestra según el valor de shouldHide */
+            shouldHide? <>Mostrar {componentString} <AddIcon/></> : <>Ocultar {componentString} <RemoveIcon/></>
+            }
         </Button>
         </>
     )

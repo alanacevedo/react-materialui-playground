@@ -112,7 +112,10 @@ const MapView = () => {
     return (
         <>
         <ToggleHideButton componentString='Mapa' shouldHide={shouldHideMap} setShouldHide={setShouldHideMap}/>
-        {shouldHideMap ? <></> : mapComponent}
+        {
+        /* Esta linea hace que varíe lo que se muestra según el valor de shouldHide */
+        shouldHideMap ? <></> : mapComponent
+        }
         </>
 
     )
