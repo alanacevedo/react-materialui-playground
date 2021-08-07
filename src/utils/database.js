@@ -21,6 +21,23 @@ export function getNodes() {
     return testNodes['nodes']
 }
 
+export function getNode(nodeId) {
+    let node = null
+
+    /* .every() es como forEach() pero cuando se retorna falso se detiene el loop, como un break. */
+
+    testNodes['nodes'].every((obj) => {
+        if (obj.id === nodeId) {
+            node = obj
+            return false  
+        }
+        return true
+    })
+
+    if (node === null) console.error('node with id', nodeId, 'not found')
+    return node
+}
+
 
 
 export async function getNodeData2(nodeIdString) {

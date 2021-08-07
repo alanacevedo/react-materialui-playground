@@ -1,6 +1,5 @@
 /* eslint-disable eqeqeq */
 import React from 'react';
-import  { useTheme } from '@material-ui/core/styles'
 import Plot from 'react-plotly.js';
 import * as localeDictionary from 'plotly.js/lib/locales/es'
 
@@ -21,7 +20,6 @@ const configSettings = {
 }
 
 const PlotlyChart = (props) => {
-  const theme = useTheme()
   const classes = useStyles()
   
   const data = props.chartTraces;

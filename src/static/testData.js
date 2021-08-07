@@ -3,14 +3,17 @@ export const testNodes = {
     {
         coords:  [-33.4500000, -70.6666667],
         id: 1,
+        estacion: 'Pozo de prueba' 
     },
     {
         coords: [-33.2, -70.6666667],
         id: 2,
+        estacion: 'Otra estación'
     },
     {
         coords:  [-33.3, -71],
         id: 3,
+        estacion: 'Una estación promedio'
     }
   ] 
 }

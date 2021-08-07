@@ -3,7 +3,7 @@ import { Button, Typography } from '@material-ui/core'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
-import { GlobalContext } from '../utils/GlobalContext'
+import { GlobalContext, useNodeActivation } from '../utils/GlobalContext'
 import { getNodes, getNodeData2, getNodeData3 } from '../utils/database'
 import ToggleHideButton from './ToggleHideButton';
 
@@ -31,26 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ToggleButton = (props) => {
-    const { activeNodes, setActiveNodes } = useContext(GlobalContext)
-
-    const activateNode = (nodeId) => {
-        setActiveNodes([...activeNodes, nodeId]) // el ... hace una copia de activeNodes (es mala idea hacer un push que modifique el objeto)
-    }
-
-
-    const deactivateNode = (nodeId) => {
-        const nodes = [...activeNodes] // es como un .copy()
-
-        const nodeIndex = nodes.indexOf(nodeId)
-
-        if (nodeIndex > -1) {
-            nodes.splice(nodeIndex, 1) // elimina 1 elemento en el índice indicado
-        } else {
-            console.error('node ' + nodeIndex.toString() + ' not in activeNodes')
-        }
-
-        setActiveNodes(nodes)
-    }
+    const { activeNodes } = useContext(GlobalContext)
+    const [activateNode, deactivateNode] = useNodeActivation()
 
 
 
@@ -107,10 +89,6 @@ const Markers = () => {
 
     */
 
-    
-
-
-
 
     return (
         <>
@@ -120,7 +98,7 @@ const Markers = () => {
                 <Marker position={obj.coords}>
                     <Popup>
                         <Typography>
-                            Nodo {obj.id}
+                            {obj.estacion}
                         </Typography>
                         
                         <ToggleButton nodeId={obj.id}/>

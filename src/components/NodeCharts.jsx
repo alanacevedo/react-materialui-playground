@@ -3,20 +3,21 @@ import React, { useContext, useState } from 'react';
 import { PlotlyChart } from './PlotlyCharts'
 import { Grid } from '@material-ui/core'
 import { GlobalContext } from '../utils/GlobalContext'
-import { getNodeData } from '../utils/database';
+import { getNodeData, getNode } from '../utils/database';
 import { subMonths } from 'date-fns'
 import ToggleHideButton from './ToggleHideButton';
-import  { useTheme } from '@material-ui/core/styles'
+import { getLineColor } from '../styles'
 
 
 import DatePickerComponent from './DatePickerComponent'
+import ActiveNodeChips from './ActiveNodeChips';
+
 
 const NodeCharts = () => {
     const { activeNodes } = useContext(GlobalContext)
     const [selectedMaxDate, handleMaxDateChange]  = useState(new Date())
     const [selectedMinDate, handleMinDateChange] = useState(subMonths(selectedMaxDate, 1))
     const [shouldHideCharts, setShouldHideCharts] = useState(false)
-    const theme = useTheme()
     
 
     if (activeNodes.length === 0) {
@@ -33,10 +34,15 @@ const NodeCharts = () => {
     const ecTraces = [];
 
 
+    
+    
+
     // Esto es poco eficiente, ver cómo hacer uso de caché para no repetir tantas consultas, quizás con useState, useEffect?
-    activeNodes.forEach((nodeId) => {
+    activeNodes.forEach((nodeId, index) => {
         const nodeData = getNodeData(nodeId)
+        const estacionName = getNode(nodeId).estacion
         const dataArray = nodeData['data']
+        const colorId = index
 
         const dateArray = dataArray.map((a) => a[0])
         const tempArray = dataArray.map((a) => a[3])
@@ -50,7 +56,7 @@ const NodeCharts = () => {
             x: dateArray,
             y: tempAlertArray, 
             mode: 'markers',
-            name: 'Etiquetas de alerta',
+            name: 'Alerta ' + estacionName,
             marker: {
               color: 'rgb(219, 64, 82)',
               size: 9
@@ -61,9 +67,9 @@ const NodeCharts = () => {
             x: dateArray,
             y:  tempArray,
             mode: 'lines',
-            name: 'Temperatura (°C)',
+            name: estacionName,
             line: {
-                color: theme.palette.primary.main,
+                color: getLineColor(colorId),
                 width: 3
             }
         };
@@ -74,7 +80,7 @@ const NodeCharts = () => {
             x: dateArray,
             y: pressureAlertArray, 
             mode: 'markers',
-            name: 'Etiquetas de alerta',
+            name: 'Alerta ' + estacionName,
             marker: {
               color: 'rgb(219, 64, 82)',
               size: 9
@@ -85,9 +91,9 @@ const NodeCharts = () => {
             x: dateArray,
             y:  pressureArray,
             mode: 'lines',
-            name: 'Presión [cm H2O]',
+            name: estacionName,
             line: {
-                color: theme.palette.primary.main,
+                color: getLineColor(colorId),
                 width: 3
             }
         };
@@ -98,7 +104,7 @@ const NodeCharts = () => {
             x: dateArray,
             y: ecAlertArray, 
             mode: 'markers',
-            name: 'Etiquetas de alerta',
+            name: 'Alerta ' + estacionName,
             marker: {
               color: 'rgb(219, 64, 82)',
               size: 9
@@ -109,9 +115,9 @@ const NodeCharts = () => {
             x: dateArray,
             y:  ecArray,
             mode: 'lines',
-            name: 'EC [µs/cm]',
+            name: estacionName,
             line: {
-                color: theme.palette.primary.main,
+                color: getLineColor(colorId),
                 width: 3
             }
         };
@@ -145,6 +151,8 @@ const NodeCharts = () => {
             selectedMinDate={selectedMinDate} handleMinDateChange={handleMinDateChange} 
             selectedMaxDate={selectedMaxDate} handleMaxDateChange={handleMaxDateChange}
         />
+
+        <ActiveNodeChips/>
         
         <Grid item xs={12}>
             <PlotlyChart chartTraces={tempTraces} dataTag='Temperatura (°C)'/>
