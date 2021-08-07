@@ -94,8 +94,7 @@ const Markers = () => {
         <>
         {data.map((obj) => {
                 return (
-                <>
-                <Marker position={obj.coords}>
+                <Marker position={obj.coords} key={obj.id}>
                     <Popup>
                         <Typography>
                             {obj.estacion}
@@ -104,7 +103,7 @@ const Markers = () => {
                         <ToggleButton nodeId={obj.id}/>
                     </Popup>
                 </Marker>
-                </>)
+                )
             })}
         </>
     )

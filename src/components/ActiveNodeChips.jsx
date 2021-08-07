@@ -27,6 +27,7 @@ const ActiveNodeChips = () => {
                             <Chip 
                                 style={{backgroundColor:color}} className={classes.chip} 
                                 color='primary' onDelete={() => deactivateNode(nodeId)} label={getNode(nodeId).estacion}
+                                key={nodeId}
                             />            
                 )})}
 
