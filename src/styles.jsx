@@ -24,7 +24,7 @@ const theme = createTheme({
 
 /* Esto es por mientras y no funciona bien, hay que decidir cómo se eligen los colores, 
        quizás usar una función tipo hash con la id? */
-export function getLineColor(n) {
+export function getNodeColor(n) {
     switch (n) {
         case 0: return theme.palette.primary.main;
         case 1: return 'rgb(11, 214, 0)'; 

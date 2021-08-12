@@ -1,4 +1,4 @@
-import { testData1, testData2, testData3, testData1Var1, testData1Var2, testNodes } from "../static/testData";
+import { testData1, testData1Var1, testData1Var2, testNodes } from "../static/testData";
 
 export function getNodeData(nodeId) {
     switch (nodeId) {

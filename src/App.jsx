@@ -25,18 +25,23 @@ const App = () => {
     const [mobileOpen, setMobileOpen] = useState(false)
     const [visibleNodes, setVisibleNodes] = useState([1, 2])
     const [shouldRefreshVNodes, setShouldRefreshVNodes] = useState(false) // Esto es para coordinar el botón de refresco en sideTabs y el mapa
+    const [nodeCache, setNodeCache] = useState({})
+
+    const globalContextValue = { 
+        activeNodes: activeNodes, setActiveNodes: setActiveNodes, visibleNodes: visibleNodes, setVisibleNodes: setVisibleNodes,
+        shouldRefreshVNodes: shouldRefreshVNodes, setShouldRefreshVNodes: setShouldRefreshVNodes, nodeCache: nodeCache, setNodeCache: setNodeCache}
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen)
     }
+
 
     const tabs = (<SideTabs handleDrawerToggle={handleDrawerToggle}/>);
     
     return (
         <>
         <GlobalContext.Provider 
-            value={{ activeNodes: activeNodes, setActiveNodes: setActiveNodes, visibleNodes: visibleNodes, setVisibleNodes: setVisibleNodes,
-                shouldRefreshVNodes: shouldRefreshVNodes, setShouldRefreshVNodes: setShouldRefreshVNodes}}>
+            value={globalContextValue}>
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <MyAppBar handleDrawerToggle={handleDrawerToggle}/>

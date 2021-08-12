@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
 import { Chip, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import { GlobalContext, useNodeActivation } from '../utils/GlobalContext';
-import { getLineColor } from '../styles'
+import { GlobalContext, useNodeActivation, useChartCache } from '../utils/GlobalContext';
 import { getNode } from '../utils/database'
 
 const useStyles = makeStyles((theme) => ({
@@ -15,13 +14,14 @@ const ActiveNodeChips = () => {
     const classes = useStyles()
     const [, deactivateNode] = useNodeActivation()
     const { activeNodes } = useContext(GlobalContext)
+    const [getCachedNodeData, ] = useChartCache()
     
     return(
         <>
             <Grid container item xs>
                 
                 {activeNodes.map((nodeId, index) => {
-                    const color = getLineColor(index)
+                    const color = getCachedNodeData(nodeId)['color']
 
                     return ( 
                             <Chip 

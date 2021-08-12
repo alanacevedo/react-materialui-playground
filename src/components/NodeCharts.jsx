@@ -2,11 +2,10 @@
 import React, { useContext, useState } from 'react';
 import { PlotlyChart } from './PlotlyCharts'
 import { Grid } from '@material-ui/core'
-import { GlobalContext } from '../utils/GlobalContext'
-import { getNodeData, getNode } from '../utils/database';
+import { GlobalContext, useChartCache } from '../utils/GlobalContext'
 import { subMonths } from 'date-fns'
 import ToggleHideButton from './ToggleHideButton';
-import { getLineColor } from '../styles'
+
 
 
 import DatePickerComponent from './DatePickerComponent'
@@ -15,14 +14,17 @@ import ActiveNodeChips from './ActiveNodeChips';
 
 const NodeCharts = () => {
     const { activeNodes } = useContext(GlobalContext)
+    
     const [selectedMaxDate, handleMaxDateChange]  = useState(new Date())
     const [selectedMinDate, handleMinDateChange] = useState(subMonths(selectedMaxDate, 1))
     const [shouldHideCharts, setShouldHideCharts] = useState(false)
-    
+    const [getCachedNodeData] = useChartCache()
 
     if (activeNodes.length === 0) {
         return (<></>)
     }
+
+    
 
     /*
     Estos arrays se irán llenando con las series que se mostrarán en el respectivo gráfico, por cada nodo se agrega
@@ -39,10 +41,10 @@ const NodeCharts = () => {
 
     // Esto es poco eficiente, ver cómo hacer uso de caché para no repetir tantas consultas, quizás con useState, useEffect?
     activeNodes.forEach((nodeId, index) => {
-        const nodeData = getNodeData(nodeId)
-        const estacionName = getNode(nodeId).estacion
-        const dataArray = nodeData['data']
-        const colorId = index
+        const nodeData = getCachedNodeData(nodeId)
+        const estacionName = nodeData['estacionName']
+        const dataArray = nodeData['data']['data']
+        const color = nodeData['color']
 
         const dateArray = dataArray.map((a) => a[0])
         const tempArray = dataArray.map((a) => a[3])
@@ -69,7 +71,7 @@ const NodeCharts = () => {
             mode: 'lines',
             name: estacionName,
             line: {
-                color: getLineColor(colorId),
+                color: color,
                 width: 3
             }
         };
@@ -93,7 +95,7 @@ const NodeCharts = () => {
             mode: 'lines',
             name: estacionName,
             line: {
-                color: getLineColor(colorId),
+                color: color,
                 width: 3
             }
         };
@@ -117,7 +119,7 @@ const NodeCharts = () => {
             mode: 'lines',
             name: estacionName,
             line: {
-                color: getLineColor(colorId),
+                color: color,
                 width: 3
             }
         };
@@ -167,13 +169,14 @@ const NodeCharts = () => {
 
     return (
         <>
-        <Grid container item xs md={3} alignItems='center'>
-            <ToggleHideButton componentString='Datos y alertas' shouldHide={shouldHideCharts} setShouldHide={setShouldHideCharts}/>
-        </Grid>
-        {
-        /* Esta linea hace que varíe lo que se muestra según el valor de shouldHide */
-        shouldHideCharts ? <></> : mainComponent
-        }
+            <Grid container item xs md={3} alignItems='center'>
+                <ToggleHideButton componentString='Datos y alertas' shouldHide={shouldHideCharts} setShouldHide={setShouldHideCharts}/>
+            </Grid>
+            {
+            /* Esta linea hace que varíe lo que se muestra según el valor de shouldHide */
+            shouldHideCharts ? <></> : mainComponent
+            }
+        
         </>   
     )
 }

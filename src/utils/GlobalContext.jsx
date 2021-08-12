@@ -1,4 +1,6 @@
 import React, { useContext } from 'react'
+import { getNodeColor } from '../styles'
+import { getNodeData, getNode } from './database'
 
 export const GlobalContext  = React.createContext({
     activeNodes: [],
@@ -7,6 +9,8 @@ export const GlobalContext  = React.createContext({
     setVisibleNodes: () => {},
     shouldRefreshVNodes : false,
     setShouldRefreshVNodes : () => {},
+    nodeCache: {},
+    setNodeCache: () => {},
 })
 
 /* 
@@ -17,9 +21,28 @@ usage:  const [activateNode, deactivateNode] = useNodeActivation()
         */
 
 export const useNodeActivation = () => {
-    const { activeNodes, setActiveNodes } = useContext(GlobalContext)
+    const { activeNodes, setActiveNodes, nodeCache, setNodeCache } = useContext(GlobalContext)
 
     const activateNode = (nodeId) => {
+
+        if (!nodeCache.hasOwnProperty(nodeId)) {
+            const nodeData = getNodeData(nodeId)
+            const cacheLength = Object.keys(nodeCache).length
+            const color = getNodeColor(cacheLength)
+            const estacionName = getNode(nodeId).estacion
+
+            const cachedData = {
+                'data' : nodeData,
+                'color': color,
+                'estacionName': estacionName
+            }
+
+            const nodeCacheCopy = {...nodeCache}
+            nodeCacheCopy[nodeId] = cachedData
+            setNodeCache(nodeCacheCopy)
+            console.log('cached data from node', nodeId  )
+        }
+
         setActiveNodes([...activeNodes, nodeId]) // el ... hace una copia de activeNodes (es mala idea hacer un push que modifique el objeto)
     }
 
@@ -38,5 +61,20 @@ export const useNodeActivation = () => {
     }
 
     return [activateNode, deactivateNode]
+}
 
+export const useChartCache = () => {
+    const { nodeCache } = useContext(GlobalContext)
+
+    const getCachedNodeData = (nodeId) => {
+
+        if (nodeCache.hasOwnProperty(nodeId)) {
+            return nodeCache[nodeId]
+        } else {
+            console.error(nodeId, 'not in node cache')
+        }
+    }
+
+
+    return [getCachedNodeData]
 }

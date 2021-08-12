@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
 import { GlobalContext, useNodeActivation } from '../utils/GlobalContext'
-import { getNodes, getNodeData, getNodeData2, getNodeData3 } from '../utils/database'
+import { getNodes, } from '../utils/database'
 import ToggleHideButton from './ToggleHideButton';
 
 
