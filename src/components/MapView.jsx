@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
 import { GlobalContext, useNodeActivation } from '../utils/GlobalContext'
-import { getNodes, getNodeData2, getNodeData3 } from '../utils/database'
+import { getNodes, getNodeData, getNodeData2, getNodeData3 } from '../utils/database'
 import ToggleHideButton from './ToggleHideButton';
 
 
@@ -87,6 +87,29 @@ const Markers = () => {
         getNodeData3()
     })
 
+    
+    // Para generar datos aleatorios
+    useEffect(() => {
+
+        function randint(min, max) {
+            return Math.random() * (max - min + 1) + min;
+          }
+
+        function randomize(x, delta) {
+            let n = Number(x)
+            return randint(n*(0.8+delta) , (1.2+delta)*n).toString()
+        }
+
+        
+        let orig = getNodeData(1)
+        console.log(orig)
+        let copy = {
+            ...orig,
+            data: orig['data'].map((list) => {
+                return [list[0], randomize(list[1], 0), list[2], randomize(list[3], 0), list[4], randomize(list[5], 0), list[6]]
+            })}
+        console.log(copy)
+    })
     */
 
 
