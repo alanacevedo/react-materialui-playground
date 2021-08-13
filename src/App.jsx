@@ -3,7 +3,7 @@ import { CssBaseline, Container, Grid, Hidden, Drawer} from '@material-ui/core'
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles'
 import theme from './styles'
 import MyAppBar from './components/MyAppBar'
-import SideTabs from './components/SideTabs'
+import SideTabs from './components/SideTabs/SideTabs'
 import MapView from './components/MapView'
 import { GlobalContext } from './utils/GlobalContext'
 import NodeCharts from './components/NodeCharts'
@@ -23,7 +23,7 @@ const App = () => {
     const classes = useStyles() 
     const [activeNodes, setActiveNodes] = useState([])
     const [mobileOpen, setMobileOpen] = useState(false)
-    const [visibleNodes, setVisibleNodes] = useState([1, 2])
+    const [visibleNodes, setVisibleNodes] = useState([])
     const [shouldRefreshVNodes, setShouldRefreshVNodes] = useState(false) // Esto es para coordinar el botón de refresco en sideTabs y el mapa
     const [nodeCache, setNodeCache] = useState({})
 

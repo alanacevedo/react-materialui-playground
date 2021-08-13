@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Hidden, Toolbar} from '@material-ui/core/';
+import { Hidden, Toolbar } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { GlobalContext } from '../utils/GlobalContext'
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import RefreshIcon from '@material-ui/icons/Refresh';
+import EstacionesTab from './EstacionesTab';
+import InfoTab from './InfoTab';
+import DatosTab from './DatosTab';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -60,7 +60,7 @@ export default function SimpleTabs(props) {
     setValue(newValue);
   };
 
-  const { visibleNodes, setShouldRefreshVNodes } = useContext(GlobalContext)
+  
 
   return (
     <div className={classes.root}>
@@ -78,21 +78,17 @@ export default function SimpleTabs(props) {
           </Hidden>
         </Toolbar>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        <Typography>
-          Las estaciones actualmente visibles en el mapa son: 
-          {visibleNodes.map((n)=>{return ' ' + n})}
+        <TabPanel value={value} index={0}>
+          <EstacionesTab/>
+          
+        </TabPanel>
 
-        <IconButton onClick={() => {setShouldRefreshVNodes(true)}}>
-          <RefreshIcon/>
-        </IconButton>
-        </Typography>
-        </TabPanel>
         <TabPanel value={value} index={1}>
-        Aquí va el contenido de Datos
+          <DatosTab/>
         </TabPanel>
+
         <TabPanel value={value} index={2}>
-        Aquí va el contenido de Información
+          <InfoTab/>
         </TabPanel>
     </div>
   );

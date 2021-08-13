@@ -29,6 +29,7 @@ const PlotlyChart = (props) => {
   xaxis: {
     autorange: true,
     //rangeslider: {},
+    uirevision: 'time', // evita que se resetee el eje x en cada renderizado
     type: 'date',
   //  showgrid: false,
   },
