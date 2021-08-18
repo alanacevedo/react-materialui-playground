@@ -23,7 +23,7 @@ const EstacionesTab = () => {
             {
                 visibleNodes.map((nodeId) => {
                 const nodeData = getNode(nodeId)
-                return (<NodeCard nombreEstacion={nodeData['estacion']} coords={nodeData['coords']}/>)
+                return (<NodeCard key={nodeId} nombreEstacion={nodeData['estacion']} coords={nodeData['coords']}/>)
                 })
             }
             </Paper>
