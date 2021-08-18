@@ -5,7 +5,9 @@ import theme from './styles'
 import MyAppBar from './components/MyAppBar'
 import SideTabs from './components/SideTabs/SideTabs'
 import MapView from './components/MapView'
-import { GlobalContext } from './utils/GlobalContext'
+import NodeCacheContext from './utils/context/NodeCacheContext'
+import ActiveNodesContext from './utils/context/ActiveNodesContext'
+import VisibleNodesContext from './utils/context/VisibleNodesContext'
 import NodeCharts from './components/NodeCharts'
 
 
@@ -27,9 +29,13 @@ const App = () => {
     const [shouldRefreshVNodes, setShouldRefreshVNodes] = useState(false) // Esto es para coordinar el botón de refresco en sideTabs y el mapa
     const [nodeCache, setNodeCache] = useState({})
 
-    const globalContextValue = { 
-        activeNodes: activeNodes, setActiveNodes: setActiveNodes, visibleNodes: visibleNodes, setVisibleNodes: setVisibleNodes,
-        shouldRefreshVNodes: shouldRefreshVNodes, setShouldRefreshVNodes: setShouldRefreshVNodes, nodeCache: nodeCache, setNodeCache: setNodeCache}
+    const activeNodesContextValue = { activeNodes: activeNodes, setActiveNodes: setActiveNodes,}
+
+    const nodeCacheContextValue = { 
+         nodeCache: nodeCache, setNodeCache: setNodeCache}
+
+    const vNodesContextValue = {visibleNodes: visibleNodes, setVisibleNodes: setVisibleNodes,
+        shouldRefreshVNodes: shouldRefreshVNodes, setShouldRefreshVNodes: setShouldRefreshVNodes,}
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen)
@@ -40,8 +46,11 @@ const App = () => {
     
     return (
         <>
-        <GlobalContext.Provider 
-            value={globalContextValue}>
+        <ActiveNodesContext.Provider value={activeNodesContextValue}>
+        <VisibleNodesContext.Provider value={vNodesContextValue}>
+        <NodeCacheContext.Provider value={nodeCacheContextValue}>
+
+
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <MyAppBar handleDrawerToggle={handleDrawerToggle}/>
@@ -78,7 +87,11 @@ const App = () => {
                 
             </main>
         </ThemeProvider>
-        </GlobalContext.Provider>
+
+        </NodeCacheContext.Provider>
+        </VisibleNodesContext.Provider>
+        </ActiveNodesContext.Provider>
+        
         </>
     )}
 

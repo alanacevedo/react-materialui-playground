@@ -3,7 +3,8 @@ import { Button, Typography } from '@material-ui/core'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
-import { GlobalContext, useNodeActivation } from '../utils/GlobalContext'
+import ActiveNodesContext from '../utils/context/ActiveNodesContext';
+import useNodeActivation from '../utils/hooks/useNodeActivation';
 import { getNodes, } from '../utils/database'
 import ToggleHideButton from './ToggleHideButton';
 
@@ -13,6 +14,7 @@ import L from 'leaflet';
 
 import icon from 'leaflet/dist/images/marker-icon.png'; 
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import VisibleNodesContext from '../utils/context/VisibleNodesContext';
 let DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow
@@ -31,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ToggleButton = (props) => {
-    const { activeNodes } = useContext(GlobalContext)
+    const { activeNodes } = useContext(ActiveNodesContext)
     const [activateNode, deactivateNode] = useNodeActivation()
 
 
@@ -52,16 +54,17 @@ const ToggleButton = (props) => {
     
 }
 
-const Markers = () => {
-    const data = getNodes()
-    const {  setVisibleNodes,  shouldRefreshVNodes, setShouldRefreshVNodes } = useContext(GlobalContext)
+// No renderiza nada, es sólo para aislar la funcionalidad y evitar re-renderizados por actualización de contexto
+const NodeCounter = (props) => {
+    const {  setVisibleNodes,  shouldRefreshVNodes, setShouldRefreshVNodes } = useContext(VisibleNodesContext) 
     const map = useMap()
+    
 
     useEffect(() => {
         if (shouldRefreshVNodes) {
             const bounds = map.getBounds()
             // Esto es super ineficiente. Si la cantidad de nodos aumenta, esto tardará  ya que tiene que iterar por todos.
-            const visibleNodes = data.filter((obj) => {
+            const visibleNodes = props.data.filter((obj) => {
                 return bounds.contains(obj.coords) 
             }).map((obj) => {
                 return obj.id
@@ -71,51 +74,16 @@ const Markers = () => {
         }
     })
 
-    /*
-    // Esto es para probar las consultas
+    return (<div></div>)
 
-    useEffect(() => {
-        getNodeData2().then(
-            data => {console.log(data)},
-            error => {
-                console.error(error)
-                console.log('hola')
-            })
-    })
+}
 
-    useEffect(() => {
-        getNodeData3()
-    })
-
+const Markers = (props) => {
     
-    // Para generar datos aleatorios
-    useEffect(() => {
-
-        function randint(min, max) {
-            return Math.random() * (max - min + 1) + min;
-          }
-
-        function randomize(x, delta) {
-            let n = Number(x)
-            return randint(n*(0.8+delta) , (1.2+delta)*n).toString()
-        }
-
-        
-        let orig = getNodeData(1)
-        console.log(orig)
-        let copy = {
-            ...orig,
-            data: orig['data'].map((list) => {
-                return [list[0], randomize(list[1], 0), list[2], randomize(list[3], 0), list[4], randomize(list[5], 0), list[6]]
-            })}
-        console.log(copy)
-    })
-    */
-
 
     return (
         <>
-        {data.map((obj) => {
+        {props.data.map((obj) => {
                 return (
                 <Marker position={obj.coords} key={obj.id}>
                     <Popup>
@@ -137,9 +105,12 @@ const Markers = () => {
 const MapView = () => {
     const classes = useStyles()
     const [shouldHideMap, setShouldHideMap] = useState(false)
-
+    const data = getNodes()
     const initialZoom = 7
     const centerCoords = [-33.4500000, -70.6666667]
+
+    const markers = <Markers data={data}/>
+    const nodeCounter = <NodeCounter data={data}/>
 
 
     const mapComponent = 
@@ -149,7 +120,10 @@ const MapView = () => {
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Markers/>
+        {markers}
+        {nodeCounter}
+
+        
     </MapContainer>
     </>
 

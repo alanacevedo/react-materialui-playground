@@ -2,18 +2,16 @@
 import React, { useContext, useState } from 'react';
 import { PlotlyChart } from './PlotlyCharts'
 import { Grid } from '@material-ui/core'
-import { GlobalContext, useChartCache } from '../utils/GlobalContext'
 import { subMonths } from 'date-fns'
 import ToggleHideButton from './ToggleHideButton';
-
-
-
 import DatePickerComponent from './DatePickerComponent'
 import ActiveNodeChips from './ActiveNodeChips';
+import ActiveNodesContext from '../utils/context/ActiveNodesContext';
+import useChartCache from '../utils/hooks/useChartCache';
 
 
 const NodeCharts = () => {
-    const { activeNodes } = useContext(GlobalContext)
+    const { activeNodes } = useContext(ActiveNodesContext)
     
     const [selectedMaxDate, handleMaxDateChange]  = useState(new Date())
     const [selectedMinDate, handleMinDateChange] = useState(subMonths(selectedMaxDate, 1))

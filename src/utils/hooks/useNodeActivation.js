@@ -1,27 +1,12 @@
-import React, { useContext } from 'react'
-import { getNodeColor } from '../styles'
-import { getNodeData, getNode } from './database'
+import { useContext } from 'react'
+import ActiveNodesContext from '../context/ActiveNodesContext'
+import NodeCacheContext from '../context/NodeCacheContext'
+import { getNodeData, getNode } from '../database'
+import { getNodeColor } from '../../styles'
 
-export const GlobalContext  = React.createContext({
-    activeNodes: [],
-    setActiveNodes: () => {},
-    visibleNodes: [], // marcadores visibles en el mapa
-    setVisibleNodes: () => {},
-    shouldRefreshVNodes : false,
-    setShouldRefreshVNodes : () => {},
-    nodeCache: {},
-    setNodeCache: () => {},
-})
-
-/* 
-Custom hook for managing active nodes in charts
-usage:  const [activateNode, deactivateNode] = useNodeActivation()
- 
-        ... activateNode(nodeId)
-        */
-
-export const useNodeActivation = () => {
-    const { activeNodes, setActiveNodes, nodeCache, setNodeCache } = useContext(GlobalContext)
+const useNodeActivation = () => {
+    const { activeNodes, setActiveNodes } = useContext(ActiveNodesContext)
+    const { nodeCache, setNodeCache } = useContext(NodeCacheContext)
 
     const activateNode = (nodeId) => {
 
@@ -63,18 +48,4 @@ export const useNodeActivation = () => {
     return [activateNode, deactivateNode]
 }
 
-export const useChartCache = () => {
-    const { nodeCache } = useContext(GlobalContext)
-
-    const getCachedNodeData = (nodeId) => {
-
-        if (nodeCache.hasOwnProperty(nodeId)) {
-            return nodeCache[nodeId]
-        } else {
-            console.error(nodeId, 'not in node cache')
-        }
-    }
-
-
-    return [getCachedNodeData]
-}
+export default useNodeActivation

@@ -5,10 +5,10 @@ import { getNode } from '../../utils/database';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import { Paper} from '@material-ui/core/';
-import { GlobalContext } from '../../utils/GlobalContext'
+import VisibleNodesContext from '../../utils/context/VisibleNodesContext';
 
 const EstacionesTab = () => {
-    const { visibleNodes, setShouldRefreshVNodes } = useContext(GlobalContext)
+    const { visibleNodes, setShouldRefreshVNodes } = useContext(VisibleNodesContext)
 
     return (
         <>
