@@ -58,18 +58,26 @@ const ToggleButton = (props) => {
 const NodeCounter = (props) => {
     const {  setVisibleNodes,  shouldRefreshVNodes, setShouldRefreshVNodes } = useContext(VisibleNodesContext) 
     const map = useMap()
+
+    const updateNodes = () => {
+        const bounds = map.getBounds()
+        const visibleNodes = props.data.filter((obj) => {
+            return bounds.contains(obj.coords) 
+        }).map((obj) => {
+            return obj.id
+        })
+        setVisibleNodes(visibleNodes)
+    }
+
+    useEffect(() => {
+        updateNodes()
+
+    }, []) // Lista vacía es para que sólo ocurra la primera vez que se renderiza.
     
 
     useEffect(() => {
         if (shouldRefreshVNodes) {
-            const bounds = map.getBounds()
-            // Esto es super ineficiente. Si la cantidad de nodos aumenta, esto tardará  ya que tiene que iterar por todos.
-            const visibleNodes = props.data.filter((obj) => {
-                return bounds.contains(obj.coords) 
-            }).map((obj) => {
-                return obj.id
-            })
-            setVisibleNodes(visibleNodes)
+            updateNodes()
             setShouldRefreshVNodes(false)
         }
     })
@@ -101,7 +109,6 @@ const Markers = (props) => {
 }
 
 
-
 const MapView = () => {
     const classes = useStyles()
     const [shouldHideMap, setShouldHideMap] = useState(false)
@@ -111,7 +118,6 @@ const MapView = () => {
 
     const markers = <Markers data={data}/>
     const nodeCounter = <NodeCounter data={data}/>
-
 
     const mapComponent = 
     <>

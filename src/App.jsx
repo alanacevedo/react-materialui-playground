@@ -9,6 +9,7 @@ import NodeCacheContext from './utils/context/NodeCacheContext'
 import ActiveNodesContext from './utils/context/ActiveNodesContext'
 import VisibleNodesContext from './utils/context/VisibleNodesContext'
 import NodeCharts from './components/NodeCharts'
+import TestingComponent from './components/TestingComponent'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     container: {
         padding: theme.spacing(6, 4, 6),
         backgroundColor: theme.palette.background.paper,
+        minHeight: '100vh'
     },
 }))
 
@@ -46,6 +48,7 @@ const App = () => {
     
     return (
         <>
+        <TestingComponent/>
         <ActiveNodesContext.Provider value={activeNodesContextValue}>
         <VisibleNodesContext.Provider value={vNodesContextValue}>
         <NodeCacheContext.Provider value={nodeCacheContextValue}>
