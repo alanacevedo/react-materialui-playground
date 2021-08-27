@@ -19,13 +19,14 @@ const EstacionesTab = () => {
                 <RefreshIcon/>
             </IconButton>
             </Typography>
-            <Paper style={{maxHeight: '45vh', overflow: 'auto'}}>
+            <Paper style={{maxHeight: '100vh', overflow: 'auto'}}>
             {
                 visibleNodes.map((nodeId) => {
                 const nodeData = getNode(nodeId)
                 return (<NodeCard key={nodeId} nombreEstacion={nodeData['estacion']} coords={nodeData['coords']}/>)
                 })
             }
+            
             </Paper>
         </>
     )

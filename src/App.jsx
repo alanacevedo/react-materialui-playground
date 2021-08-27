@@ -72,7 +72,7 @@ const App = () => {
             <main>
                 <Container className={classes.container} maxWidth='xl'>
                     <Grid container spacing={2}>
-                        <Grid container  item xs={12} md={8}  spacing={3}>
+                        <Grid container  item xs={12} md={8}  spacing={3} alignContent='flex-start'>
                             <Grid item xs={11}>
                                 <MapView/>
                             </Grid>
