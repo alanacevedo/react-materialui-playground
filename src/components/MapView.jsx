@@ -7,6 +7,7 @@ import ActiveNodesContext from '../utils/context/ActiveNodesContext';
 import useNodeActivation from '../utils/hooks/useNodeActivation';
 import { getNodes, } from '../utils/database'
 import ToggleHideButton from './ToggleHideButton';
+import NodeSearchbar from './NodeSearchbar';
 
 
 
@@ -138,7 +139,7 @@ const MapView = () => {
         <ToggleHideButton componentString='Mapa' shouldHide={shouldHideMap} setShouldHide={setShouldHideMap}/>
         {
         /* Esta linea hace que varíe lo que se muestra según el valor de shouldHide */
-        shouldHideMap ? <></> : mapComponent
+        shouldHideMap ? <></> : <><NodeSearchbar/>{mapComponent} </>
         }
         </>
 
