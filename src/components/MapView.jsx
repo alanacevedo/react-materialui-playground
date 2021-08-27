@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, Typography } from '@material-ui/core'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
@@ -72,7 +73,7 @@ const NodeCounter = (props) => {
 
     useEffect(() => {
         updateNodes()
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []) // Lista vacía es para que sólo ocurra la primera vez que se renderiza.
     
 
@@ -109,6 +110,21 @@ const Markers = (props) => {
     )
 }
 
+// No renderiza nada, es sólo para aislar la funcionalidad de cambiar las coordenadas del mapa
+const LocationSetter = (props) => {
+    const currentCoords = props.currentCoords
+    const map = useMap()
+
+    useEffect(() => {
+        map.flyTo(currentCoords, 10)
+    }, [currentCoords, map])
+
+
+
+
+    return <div></div>
+}
+
 
 const MapView = () => {
     const classes = useStyles()
@@ -116,9 +132,11 @@ const MapView = () => {
     const data = getNodes()
     const initialZoom = 7
     const centerCoords = [-33.4500000, -70.6666667]
+    const [currentCoords, setCurrentCoords] = useState(centerCoords)
 
     const markers = <Markers data={data}/>
     const nodeCounter = <NodeCounter data={data}/>
+    const locationSetter = <LocationSetter currentCoords={currentCoords}/>
 
     const mapComponent = 
     <>
@@ -129,17 +147,19 @@ const MapView = () => {
         />
         {markers}
         {nodeCounter}
+        {locationSetter}
 
         
     </MapContainer>
     </>
 
     return (
+        // aqui agregar un context para la ubicación? -> mejor pasar el setCoords como props a NodeSearchbar
         <>
         <ToggleHideButton componentString='Mapa' shouldHide={shouldHideMap} setShouldHide={setShouldHideMap}/>
         {
         /* Esta linea hace que varíe lo que se muestra según el valor de shouldHide */
-        shouldHideMap ? <></> : <><NodeSearchbar/>{mapComponent} </>
+        shouldHideMap ? <></> : <><NodeSearchbar setCurrentCoords={setCurrentCoords}/> {mapComponent} </>
         }
         </>
 
