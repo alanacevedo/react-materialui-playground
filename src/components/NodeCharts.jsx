@@ -12,7 +12,6 @@ import useChartCache from '../utils/hooks/useChartCache';
 
 const NodeCharts = () => {
     const { activeNodes } = useContext(ActiveNodesContext)
-    
     const [selectedMaxDate, handleMaxDateChange]  = useState(new Date())
     const [selectedMinDate, handleMinDateChange] = useState(subMonths(selectedMaxDate, 1))
     const [shouldHideCharts, setShouldHideCharts] = useState(false)
@@ -34,16 +33,25 @@ const NodeCharts = () => {
     const ecTraces = [];
 
 
-    
-    
-
-    // Esto es poco eficiente, ver cómo hacer uso de caché para no repetir tantas consultas, quizás con useState, useEffect?
     activeNodes.forEach((nodeId, index) => {
         const nodeData = getCachedNodeData(nodeId)
         const estacionName = nodeData['estacionName']
         const dataArray = nodeData['data']['data']
         const color = nodeData['color']
 
+
+        /*
+            "headers": [
+            "Date_Time",
+            "Pression [cm H2O]",
+            "Etiqueta P",
+            "Temperatura [°C]",
+            "Etiqueta T",
+            "EC [µs/cm]",
+            "Etiqueta EC"
+        ],
+
+        */
         const dateArray = dataArray.map((a) => a[0])
         const tempArray = dataArray.map((a) => a[3])
         const tempAlertArray = dataArray.map((a) => a[4]==0 ? null:a[3])
