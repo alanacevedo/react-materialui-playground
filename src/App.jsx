@@ -76,8 +76,14 @@ const App = () => {
                             <Grid item xs={11}>
                                 <MapView/>
                             </Grid>
+                            <Grid item xs={12}>
+                               <NodeCharts/>       
+                            </Grid>
+                            <Grid item xs={12}>
+                               <NodeCharts/>       
+                            </Grid>
                             
-                            <NodeCharts/>
+                            
                         </Grid>
                         <Hidden smDown>
                             <Grid container item xs={11} md={4}>

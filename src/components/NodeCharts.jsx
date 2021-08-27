@@ -21,8 +21,6 @@ const NodeCharts = () => {
         return (<></>)
     }
 
-    
-
     /*
     Estos arrays se irán llenando con las series que se mostrarán en el respectivo gráfico, por cada nodo se agrega
     la linea correspondiente a la serie de tiempo, y además los puntos de scatter correspondientes a las alertas
@@ -163,13 +161,13 @@ const NodeCharts = () => {
         <ActiveNodeChips/>
         
         <Grid item xs={12}>
-            <PlotlyChart chartTraces={tempTraces} dataTag='Temperatura (°C)'/>
+            <PlotlyChart chartTraces={tempTraces} dataTag='Temperatura (°C)' threshold={15}/>
         </Grid>
         <Grid item xs={12}>
-            <PlotlyChart chartTraces={pressureTraces} dataTag='Presión [cm H2O]'/>
+            <PlotlyChart chartTraces={pressureTraces} dataTag='Presión [cm H2O]' threshold={1300}/>
         </Grid>
         <Grid item xs={12}>
-            <PlotlyChart chartTraces={ecTraces} dataTag='EC [µs/cm]'/>
+            <PlotlyChart chartTraces={ecTraces} dataTag='EC [µs/cm]' threshold={250}/>
         </Grid>
     </>  
 

@@ -23,6 +23,7 @@ const PlotlyChart = (props) => {
   const classes = useStyles()
   
   const data = props.chartTraces;
+  const threshold = props.threshold
 
   const layout = {
   title: props.dataTag, //no ta
@@ -47,8 +48,33 @@ const PlotlyChart = (props) => {
     x: 0,
     y:1,
   },
+  shapes : [
+    {
+        'type': 'line',
+        'xref': 'paper',
+        'x0': 0,
+        'y0': threshold,
+        'x1': 1,
+        'y1': threshold, 
+        'line': {
+            'color': 'rgb(32,178,170)',
+            'width': 1,
+            'dash': 'dash',
+        },
+    },
+  ]
 
-  }
+  /*
+  Para agregarle un texto a la linea de umbral se podría hacer un trace sólo con texto similar a esto:
+  var trace1 = {
+  x: [1.5, 4.5],
+  y: [0.75, 0.75],
+  text: ['Unfilled Rectangle', 'Filled Rectangle'],
+  mode: 'text'
+};
+  */ 
+ 
+}
   return (
       <Plot
       data={data}
