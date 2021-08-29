@@ -4,12 +4,11 @@ import { Button, Typography } from '@material-ui/core'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
-import ActiveNodesContext from '../utils/context/ActiveNodesContext';
-import useNodeActivation from '../utils/hooks/useNodeActivation';
+
 import { getNodes, } from '../utils/database'
 import ToggleHideButton from './ToggleHideButton';
 import NodeSearchbar from './NodeSearchbar';
-
+import ToggleNodeButton from './ToggleNodeButton';
 
 
 import L from 'leaflet';
@@ -33,28 +32,6 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-
-const ToggleButton = (props) => {
-    const { activeNodes } = useContext(ActiveNodesContext)
-    const [activateNode, deactivateNode] = useNodeActivation()
-
-
-
-    if (!activeNodes.includes(props.nodeId)) {
-        return (
-            <Button variant='contained' color='primary' onClick={() => {activateNode(props.nodeId)}}>
-                Agregar datos
-            </Button>
-        )
-    } else {
-        return (
-            <Button variant='contained' color='primary' onClick={() => {deactivateNode(props.nodeId)}}>
-                Quitar datos
-            </Button>
-        )
-    }
-    
-}
 
 // No renderiza nada, es sólo para aislar la funcionalidad y evitar re-renderizados por actualización de contexto
 const NodeCounter = (props) => {
@@ -101,7 +78,7 @@ const Markers = (props) => {
                             {obj.estacion}
                         </Typography>
                         
-                        <ToggleButton nodeId={obj.id}/>
+                        <ToggleNodeButton nodeId={obj.id}/>
                     </Popup>
                 </Marker>
                 )
