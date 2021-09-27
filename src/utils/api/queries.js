@@ -32,3 +32,7 @@ export async function getEstaciones() {
 export async function getDataEstacion(nodeIdString) {
     return makeRequest(`http://agua.niclabs.cl/queries/dataestaciones?estacion=${nodeIdString}`)  
 }
+
+export async function getAlertaEstacion(nodeIdString) {
+    return makeRequest(`http://agua.niclabs.cl/queries/etiquetasestacion?estacion=${nodeIdString}`)
+}

@@ -1,6 +1,6 @@
 
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Typography } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { makeStyles } from '@material-ui/core/styles'
 import 'leaflet/dist/leaflet.css'
@@ -93,7 +93,7 @@ const LocationSetter = (props) => {
     const map = useMap()
 
     useEffect(() => {
-        map.flyTo(currentCoords, 10)
+        map.flyTo(currentCoords, 11)
     }, [currentCoords, map])
 
 

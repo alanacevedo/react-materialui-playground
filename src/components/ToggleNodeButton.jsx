@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext  } from 'react'
 import ActiveNodesContext from '../utils/context/ActiveNodesContext';
 import useNodeActivation from '../utils/hooks/useNodeActivation';
-import { Button, Typography } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 
 const ToggleNodeButton = (props) => {
     const { activeNodes } = useContext(ActiveNodesContext)
     const [activateNode, deactivateNode] = useNodeActivation()
-
-
 
     if (!activeNodes.includes(props.nodeId)) {
         return (
@@ -22,7 +20,6 @@ const ToggleNodeButton = (props) => {
             </Button>
         )
     }
-    
 }
 
 export default ToggleNodeButton

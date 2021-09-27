@@ -10,6 +10,7 @@ import ActiveNodesContext from './utils/context/ActiveNodesContext'
 import VisibleNodesContext from './utils/context/VisibleNodesContext'
 import NodeCharts from './components/NodeCharts'
 import TestingComponent from './components/TestingComponent'
+import TemporalCharts from './components/TemporalCharts'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -80,7 +81,7 @@ const App = () => {
                                <NodeCharts/>       
                             </Grid>
                             <Grid item xs={12}>
-                               <NodeCharts/>       
+                               <TemporalCharts/>       
                             </Grid>
                             
                             

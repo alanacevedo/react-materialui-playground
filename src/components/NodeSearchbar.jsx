@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { Button, Grid, Typography } from '@material-ui/core'
+import { Button, Grid } from '@material-ui/core'
 import { getNodes } from '../utils/database';
 import ToggleNodeButton from './ToggleNodeButton';
 

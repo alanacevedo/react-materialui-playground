@@ -130,26 +130,7 @@ const NodeCharts = () => {
 
         ecTraces.push(ecScatterTrace, ecLineTrace)
 
-    })
-
-    
-
-    /* 
-    dateArray tiene la forma
-
-    [
-      "Date_Time",
-      "Pression [cm H2O]",
-      "Etiqueta P",
-      "Temperatura [°C]",
-      "Etiqueta T",
-      "EC [µs/cm]",
-      "Etiqueta EC"
-    ],
-    */
-    
-
-    
+    })    
 
     const mainComponent = 
     <>
