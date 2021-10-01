@@ -74,7 +74,12 @@ const PlotlyChart = (props) => {
 };
   */ 
  
-}
+  }
+
+  if (props.hideMonth) {
+    layout.xaxis = {...layout.xaxis, tickformat: '%d'}
+  }
+
   return (
       <Plot
       data={data}

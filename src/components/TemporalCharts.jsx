@@ -3,7 +3,7 @@ import ActiveNodesContext from '../utils/context/ActiveNodesContext';
 import { Grid } from '@material-ui/core'
 import ToggleHideButton from './ToggleHideButton';
 import useChartCache from '../utils/hooks/useChartCache';
-import { setMonth, setDate, setHours, setMinutes } from 'date-fns'
+import { setDate, setHours, setMinutes } from 'date-fns'
 import { PlotlyChart } from './PlotlyCharts'
 
 const TemporalCharts = () => {
@@ -18,6 +18,8 @@ const TemporalCharts = () => {
     const nodeData = getCachedNodeData(activeNodes[0])
     const dataArray = nodeData['data']['data']
     const tempTraces = [];
+    const pressureTraces = [];
+    const ecTraces = [];
 
     const earliestDate = new Date(dataArray[0][0])
     const earliestMonth = earliestDate.getMonth()
@@ -29,6 +31,8 @@ const TemporalCharts = () => {
     let currentYear = earliestYear;
     let dateArray = [];
     let tempArray = [];
+    let pressureArray = [];
+    let ecArray = [];
 
 
     // #TODO:  idealmente se haría una busqueda (binaria?) y luego copiar slices grandes, no uno a uno.
@@ -56,6 +60,9 @@ const TemporalCharts = () => {
 
             dateArray.push(normalizedDate);
             tempArray.push(item[3]);
+            pressureArray.push(item[1]);
+            ecArray.push(item[5]);
+
 
         } else {
             // Cambio de mes, se genera trace
@@ -65,15 +72,42 @@ const TemporalCharts = () => {
                 x: dateArray,
                 y:  tempArray,
                 mode: 'lines',
-                name: `${currentMonth} ${currentYear}`,
+                name: ``,
                 line: {
                     width: 3
-                }
+                },
+                hovertemplate: `%{x|%d} ${getMonthName(currentMonth)} ${currentYear} %{x|%H:%M} <br> Valor: %{y} `,
+            };
+
+            const pressureLineTrace = {
+                x: dateArray,
+                y:  pressureArray,
+                mode: 'lines',
+                name: ``,
+                line: {
+                    width: 3
+                },
+                hovertemplate: `%{x|%d} ${getMonthName(currentMonth)} ${currentYear} %{x|%H:%M} <br> Valor: %{y} `
+            };
+
+            const ecLineTrace = {
+                x: dateArray,
+                y:  ecArray,
+                mode: 'lines',
+                name: ``,
+                line: {
+                    width: 3
+                },
+                hovertemplate: `%{x|%d} ${getMonthName(currentMonth)} ${currentYear} %{x|%H:%M} <br> Valor: %{y} `
             };
 
             tempTraces.push(tempLineTrace);
+            pressureTraces.push(pressureLineTrace);
+            ecTraces.push(ecLineTrace);
             dateArray = [];
             tempArray = [];
+            pressureArray = [];
+            ecArray = [];
             currentMonth = date.getMonth();
             currentYear = date.getFullYear();
         }
@@ -87,7 +121,13 @@ const TemporalCharts = () => {
     const mainComponent = 
     <>
         <Grid item xs={12}>
-            <PlotlyChart chartTraces={tempTraces} dataTag='Temperatura (°C)' threshold={15}/>
+            <PlotlyChart chartTraces={tempTraces} dataTag='Temperatura (°C)' threshold={15} hideMonth={true}/>
+        </Grid>
+        <Grid item xs={12}>
+            <PlotlyChart chartTraces={pressureTraces} dataTag='Presión [cm H2O]' threshold={1300} hideMonth={true}/>
+        </Grid>
+        <Grid item xs={12}>
+            <PlotlyChart chartTraces={ecTraces} dataTag='EC [µs/cm]' threshold={250} hideMonth={true}/>
         </Grid>
     </>
 
@@ -102,6 +142,38 @@ const TemporalCharts = () => {
         }
     </>
     )
+}
+
+function getMonthName(monthNumber) {
+    switch (monthNumber){
+        case 0:
+            return 'Enero'
+        case 1:
+            return 'Febrero'
+        case 2:
+            return 'Marzo'
+        case 3:
+            return 'Abril'
+        case 4:
+            return 'Mayo'
+        case 5:
+            return 'Junio'
+        case 6:
+            return 'Julio'
+        case 7:
+            return 'Agosto'
+        case 8:
+            return 'Septiembre'
+        case 9:
+            return 'Octubre'
+        case 10:
+            return 'Noviembre'
+        case 11:
+            return 'Diciembre'
+        default:
+            console.error(`getMonthName error: month number ${monthNumber} not valid`)
+            return null
+    }
 }
 
 export default TemporalCharts
