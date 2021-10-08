@@ -1,5 +1,8 @@
 import { testData1, testData1Var1, testData1Var2, testNodes } from "../static/testData";
 
+const QUERY_API_KEY = process.env.REACT_APP_QUERY_API_KEY
+
+
 export function getNodeData(nodeId) {
     switch (nodeId) {
         case 1:
@@ -45,7 +48,7 @@ export async function getNodeData2(nodeIdString) {
     {
         method: 'GET',
         headers: {
-            'query-api-key' : '919c5e5e086a492398141c1ebd95b711',
+            'query-api-key' : QUERY_API_KEY,
             'Content-Type': 'Application/json'
         },
         mode: 'cors',
@@ -61,7 +64,7 @@ export function getNodeData3() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url);
 
-    xhr.setRequestHeader("query-api-key", "919c5e5e086a492398141c1ebd95b711");
+    xhr.setRequestHeader("query-api-key", QUERY_API_KEY);
 
     xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {

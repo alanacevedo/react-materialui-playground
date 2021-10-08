@@ -1,4 +1,5 @@
-const apiKey = '919c5e5e086a492398141c1ebd95b711' // Es seguro tener esto aquí?
+
+const QUERY_API_KEY = process.env.REACT_APP_QUERY_API_KEY
 
 async function makeRequest(url) {
     
@@ -6,7 +7,7 @@ async function makeRequest(url) {
     {
         method: 'GET',
         headers: {
-            'query-api-key' : apiKey,
+            'query-api-key' : QUERY_API_KEY,
             'Content-Type': 'Application/json'
         },
         mode: 'cors',
